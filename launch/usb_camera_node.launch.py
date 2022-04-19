@@ -40,6 +40,10 @@ def generate_launch_description():
             namespace='/camera',
             parameters=[
                 {"camera_calibration_file": LaunchConfiguration('camera_calibration_file')}
+            ],
+            remappings=[
+                 ('/camera/image', '/image/image')
             ]
         )
     ])
+
