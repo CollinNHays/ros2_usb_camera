@@ -42,7 +42,17 @@ CameraDriver::CameraDriver(const rclcpp::NodeOptions &node_options) : Node("usb_
 
     camera_id = this->declare_parameter("camera_id", 0);
 
-    rmw_qos_profile_t custom_qos_profile = rmw_qos_profile_sensor_data;
+    rmw_qos_profile_t custom_qos_profile = {
+  RMW_QOS_POLICY_HISTORY_KEEP_LAST,
+  5,
+  RMW_QOS_POLICY_RELIABILITY_RELIABLE,
+  RMW_QOS_POLICY_DURABILITY_VOLATILE,
+  RMW_QOS_DEADLINE_DEFAULT,
+  RMW_QOS_LIFESPAN_DEFAULT,
+  RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
+  RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
+  false
+};
     camera_info_pub_ = image_transport::create_camera_publisher(this, "image", custom_qos_profile);
 
     cinfo_manager_ = std::make_shared<camera_info_manager::CameraInfoManager>(this);
